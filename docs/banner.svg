@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="260" viewBox="0 0 1200 260">
+<defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#4ade80"/><stop offset=".5" stop-color="#22d3ee"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs>
+<rect width="1200" height="260" rx="18" fill="#0d1117"/>
+<g transform="translate(90 70)" fill="none" stroke="url(#g)" stroke-width="6" stroke-linecap="round">
+<rect x="20" y="20" width="100" height="100" rx="14"/><rect x="48" y="48" width="44" height="44" rx="6" fill="url(#g)" stroke="none" opacity=".85"/>
+<path d="M45 20V0M70 20V0M95 20V0M45 120v20M70 120v20M95 120v20M20 45H0M20 70H0M20 95H0M120 45h20M120 70h20M120 95h20"/></g>
+<text x="270" y="130" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="84" font-weight="700" fill="url(#g)">socmon</text>
+<text x="274" y="178" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="27" fill="#8b949e">See what your SoC is really doing — CPU, GPU, NPU and video engines.</text>
+</svg>
