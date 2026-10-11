@@ -6,6 +6,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/anand34577/socmon/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/anand34577/socmon/actions/workflows/ci.yml/badge.svg"></a>
   <img alt="Go" src="https://img.shields.io/badge/Go-1.21%2B-00ADD8?logo=go&logoColor=white">
   <img alt="Platform" src="https://img.shields.io/badge/linux-arm64-informational">
   <img alt="Dependencies" src="https://img.shields.io/badge/dependencies-none-brightgreen">
@@ -64,6 +65,17 @@ The layout reflows to the terminal: **3 columns** at ≥150 cols, **2** at ≥96
 
 ## Quick start
 
+Download the prebuilt binary from the [latest release](https://github.com/anand34577/socmon/releases/latest), verify it, and run it as root:
+
+```sh
+curl -LO https://github.com/anand34577/socmon/releases/latest/download/socmon-linux-arm64
+curl -LO https://github.com/anand34577/socmon/releases/latest/download/socmon-linux-arm64.sha256
+sha256sum -c socmon-linux-arm64.sha256
+chmod +x socmon-linux-arm64 && sudo ./socmon-linux-arm64
+```
+
+Releases are built by GitHub Actions when a `v*` tag is pushed. To build it yourself instead:
+
 ```sh
 # 1. build for the board (from any OS with Go)
 GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o socmon-linux-arm64 .
@@ -89,6 +101,7 @@ sudo ./socmon              # live dashboard
 | `-i <dur>`   | Refresh interval, e.g. `500ms`, `2s` (default `1s`)      |
 | `-once`      | Print one JSON snapshot and exit (process list omitted)  |
 | `-frame WxH` | Render one frame at the given size and exit (min 40×10)  |
+| `-color <m>` | `auto` (default, trusts `$COLORTERM`), `true` (24-bit) or `256` |
 
 ### Keys
 
@@ -161,7 +174,7 @@ It only lists and reads sysfs/procfs/debugfs files (cpufreq, devfreq, GPU, NPU, 
 | Symptom                              | Likely cause                                                           |
 |--------------------------------------|------------------------------------------------------------------------|
 | NPU/GPU load missing, apps not listed | Not running as root, or debugfs not mounted (`mount -t debugfs none /sys/kernel/debug`) |
-| Colours look flat                    | Terminal lacks 24-bit colour; set `COLORTERM=truecolor` if supported (otherwise a 256-colour palette is used) |
+| Colours look faded / flat            | socmon only uses 24-bit colour when `$COLORTERM` says so; `sudo` and many SSH sessions drop it, so it falls back to a coarser 256-colour palette. Run `sudo ./socmon -color true` (or `sudo -E`) on a 24-bit terminal |
 | Card shows clock but no load         | The kernel driver exposes no load counter for that block               |
 
 ## Project layout
@@ -178,6 +191,7 @@ It only lists and reads sysfs/procfs/debugfs files (cpufreq, devfreq, GPU, NPU, 
 | `ui.go`       | Colour, formatting helpers, layout and frame rendering                                  |
 | `term.go`     | Raw mode, terminal size, TTY detection                                                  |
 | `sysfs.go`    | Small sysfs read helpers                                                                |
+| `.github/workflows/` | `ci.yml` (fmt, vet, test, build on every push/PR) and `release.yml` (builds and publishes binaries on `v*` tags) |
 | `docs/`       | README images (`banner.svg`, `hero.png`, `compact.png`)                                 |
 | `scripts/`    | `socmon-diag.sh`, the read-only diagnostics collector                                  |
 
@@ -197,4 +211,4 @@ COLORTERM=truecolor SOCMON_PREVIEW=/tmp/p.txt go test -run TestRender   # keep c
 
 ## License
 
-No license file is included yet — add one before publishing.
+MIT. See [LICENSE](LICENSE).
