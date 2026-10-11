@@ -18,7 +18,14 @@ func main() {
 	interval := flag.Duration("i", time.Second, "refresh interval")
 	once := flag.Bool("once", false, "print one JSON snapshot and exit")
 	frame := flag.String("frame", "", "print one dashboard frame at WxH (e.g. 180x50) and exit")
+	color := flag.String("color", "auto", "colour mode: auto (trust $COLORTERM), true (24-bit), 256")
 	flag.Parse()
+	switch *color {
+	case "true":
+		trueColor = true
+	case "256":
+		trueColor = false
+	}
 	tickSec = interval.Seconds()
 
 	col := NewCollector()
